@@ -4,10 +4,10 @@
 </script>
 
 <header>
-	<h1>Sanity + SvelteKit</h1>
+	<h1 class="text-3xl font-bold underline">Sanity + SvelteKit</h1>
 </header>
 <main>
-	<div class="bg-neutral-900">
+	<div class="bg-indigo-900">
 		<h1>{conference?.title}</h1>
 		<h2>{conference?.description}</h2>
 		<h3>{conference?.location}</h3>
@@ -45,3 +45,9 @@
 		</ul>
 	</div>
 </main>
+
+<style lang="postcss">
+	:global(html) {
+		background-color: theme(colors.gray.100);
+	}
+</style>
