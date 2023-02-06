@@ -1,4 +1,7 @@
 import sanityClient from '@sanity/client';
+import type { Conference } from '$lib/types';
+
+import type { PageLoad } from './$types';
 
 const client = sanityClient({
 	projectId: 'pzc72vti',
@@ -7,8 +10,10 @@ const client = sanityClient({
 	useCdn: false
 });
 
-export async function load({ params }) {
-	const data = await client.fetch(`*[_type == "conference"][0]{_id,
+type OutputType = { conference: Conference };
+
+export const load: PageLoad<OutputType> = async ({ params }) => {
+	const data = await client.fetch(`*[_type == "conference"][${params.slug}]{_id,
     title,
     description,
     location,
@@ -17,7 +22,7 @@ export async function load({ params }) {
     endDate,
     'talkCount': count(*[_type == 'talk']),
     'speakerCount': count(*[_type == 'speaker']),
-    'days': *[_type == 'day'] | order(date asc)
+    'days': *[_type == 'day' && references(^._id)] | order(date asc)
     {
       _id,
       title,
@@ -39,11 +44,5 @@ export async function load({ params }) {
   }
   }`);
 
-	if (data) {
-		return { conference: data };
-	}
-	return {
-		status: 500,
-		body: new Error('Internal Server Error')
-	};
-}
+	return { conference: data as Conference };
+};
