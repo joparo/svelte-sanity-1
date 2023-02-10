@@ -3,10 +3,10 @@
 	import '../app.css';
 </script>
 
-<nav class="container mx-auto bg-teal-400 m-4">
-	<h1 class="text-3xl bold">EarlyCod - The Premium Conference System</h1>
-</nav>
+<main class="container mx-auto m-4 p-8">
+	<slot />
+</main>
 
-<slot />
-
-<footer class="container mx-auto">All rights reserved</footer>
+<footer class="container mx-auto p-8">
+	<p class="text-xs">Powered By: EarlyCod - The Premium Conference System - All rights reserved</p>
+</footer>

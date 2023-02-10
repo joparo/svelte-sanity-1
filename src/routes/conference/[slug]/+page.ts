@@ -10,9 +10,9 @@ const client = sanityClient({
 	useCdn: false
 });
 
-type OutputType = { conference: Conference };
+export type ConferenceData = { conference: Conference };
 
-export const load: PageLoad<OutputType> = async ({ params }) => {
+export const load: PageLoad<ConferenceData> = async ({ params }) => {
 	const data = await client.fetch(`*[_type == "conference"][${params.slug}]{_id,
     title,
     description,
@@ -22,7 +22,7 @@ export const load: PageLoad<OutputType> = async ({ params }) => {
     endDate,
     'talkCount': count(*[_type == 'talk']),
     'speakerCount': count(*[_type == 'speaker']),
-    'days': *[_type == 'day' && references(^._id)] | order(date asc)
+    'days': *[_type == 'day' && references(^._id)] | order(date asc) | order(order asc)
     {
       _id,
       title,
